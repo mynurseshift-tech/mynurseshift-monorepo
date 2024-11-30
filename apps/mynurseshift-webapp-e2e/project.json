@@ -1,0 +1,30 @@
+{
+  "name": "mynurseshift-webapp-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/mynurseshift-webapp-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/mynurseshift-webapp-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "mynurseshift-webapp:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "mynurseshift-webapp:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "mynurseshift-webapp:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "implicitDependencies": ["mynurseshift-webapp"],
+  "tags": []
+}
