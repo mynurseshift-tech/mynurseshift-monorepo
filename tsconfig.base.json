@@ -15,14 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@mynurseshift/components": ["libs/mynurseshift-components/src/index.ts"],
       "@mynurseshift/core": ["libs/core/src/index.ts"],
-      "@mynurseshift/features/auth": ["libs/features/auth/src/index.ts"],
-      "@mynurseshift/features/planning": [
-        "libs/features/planning/src/index.ts"
-      ],
-      "@mynurseshift/features/user": ["libs/features/user/src/index.ts"],
-      "core/core": ["libs/core/core/src/index.ts"]
+      "@mynurseshift/ui": ["libs/shared/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

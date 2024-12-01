@@ -1,52 +1,48 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.css';
 
-import NxWelcome from './nx-welcome';
-
-import { Route, Routes, Link } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'sonner';
+import { AuthGuard } from '@mynurseshift/core';
+import { LoginPage } from './pages/auth/login';
+import { DashboardPage } from './pages/dashboard/page';
+import { PendingUsersPage } from './pages/users/pending';
+import { AdminLayout } from './components/layout/admin-layout';
+import { AuthProvider } from './contexts/auth.context';
 
 export function App() {
   return (
-    <div>
-      <NxWelcome title="mynurseshift-back-office" />
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
-      </div>
+    <AuthProvider>
+      <Toaster position="top-right" />
       <Routes>
+        {/* Public routes */}
+        <Route
+          path="/auth/login"
+          element={
+            <AuthGuard requireAuth={false}>
+              <LoginPage />
+            </AuthGuard>
+          }
+        />
+
+        {/* Protected routes */}
         <Route
           path="/"
           element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
+            <AuthGuard>
+              <AdminLayout>
+                <Routes>
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/users/pending" element={<PendingUsersPage />} />
+                  {/* Les autres routes seront ajoutées ici */}
+                  <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                </Routes>
+              </AdminLayout>
+            </AuthGuard>
           }
         />
       </Routes>
-      {/* END: routes */}
-    </div>
+    </AuthProvider>
   );
 }
 
